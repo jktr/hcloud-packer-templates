@@ -1,0 +1,6 @@
+*-manifest.json
+*.pem
+*.sig
+*.asc
+secret*
+

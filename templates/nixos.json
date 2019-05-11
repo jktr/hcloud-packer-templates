@@ -1,0 +1,47 @@
+{
+    "variables": {
+        "hcloud_token": "{{ env `HCLOUD_TOKEN` }}",
+        "nix-signing-keys": "B541D55301270E0BCF15CA5D8170B4726D7198DE",
+        "nix-install-url": "https://nixos.org/releases/nix/nix-2.2.2/install",
+        "nix-channel": "https://nixos.org/channels/nixos-19.03",
+        "nix-config-repo-url": "https://git.cs.uni-paderborn.de/jktr/nix-configuration.git"
+    },
+
+    "builders": [{
+        "type": "hcloud",
+        "ssh_username": "root",
+
+        "token": "{{ user `hcloud_token` }}",
+        "image": "debian-9",
+        "location": "hel1",
+        "server_type": "cx11",
+        
+        "snapshot_name": "nixos-{{ timestamp }}",
+        "rescue": "linux64"
+    }],
+
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "install/filesystem.sh",
+            "environment_vars": [
+                "LABEL=nixos-{{ timestamp }}"
+            ]
+        },    
+        {
+            "type": "shell",
+            "script": "install/nixos.sh",
+            "environment_vars": [
+                "NIX_SIGNING_KEYS={{ user `nix-signing-keys` }}",
+                "NIX_INSTALL_URL={{ user `nix-install-url` }}",
+                "NIX_CHANNEL={{ user `nix-channel` }}",
+                "NIX_CONFIG_REPO_URL={{ user `nix-config-repo-url` }}"
+            ]
+        }
+    ],
+
+    "post-processors": [{
+        "type": "manifest",
+        "output": "nixos-manifest.json"
+    }]
+}
