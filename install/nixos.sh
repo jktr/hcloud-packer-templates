@@ -18,8 +18,8 @@ mkdir -m 0755 /nix && chown root /nix
 
 # obtain nix tools
 gpg --batch --receive-keys  ${NIX_SIGNING_KEYS}
-curl -so install        "${NIX_INSTALL_URL}"
-curl -so install.asc    "${NIX_INSTALL_URL}.asc"
+curl --fail -o install     "${NIX_INSTALL_URL}"
+curl --fail -o install.asc "${NIX_INSTALL_URL}.asc"
 gpg --verify ./install.asc ./install
 sh ./install
 

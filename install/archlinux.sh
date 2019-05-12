@@ -13,8 +13,8 @@ set -euo pipefail
 
 # obtain arch tools
 gpg --batch --receive-keys ${ARCH_SIGNING_KEYS}
-curl -so "${ARCH_IMAGE}"     "${ARCH_MIRROR}/iso/latest/${ARCH_IMAGE}"
-curl -so "${ARCH_IMAGE}.sig" "${ARCH_MIRROR}/iso/latest/${ARCH_IMAGE}.sig"
+curl --fail -o "${ARCH_IMAGE}"     "${ARCH_MIRROR}/iso/latest/${ARCH_IMAGE}"
+curl --fail -o "${ARCH_IMAGE}.sig" "${ARCH_MIRROR}/iso/latest/${ARCH_IMAGE}.sig"
 gpg --verify "./${ARCH_IMAGE}.sig" "./${ARCH_IMAGE}"
 tar xzf "./${ARCH_IMAGE}"
 rm "./${ARCH_IMAGE}" # save memory
