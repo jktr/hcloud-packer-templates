@@ -3,8 +3,8 @@
         "hcloud-token": "{{ env `HCLOUD_TOKEN` }}",
         "hcloud-servertype": "cx11",
         "nix-signing-keys": "B541D55301270E0BCF15CA5D8170B4726D7198DE",
-        "nix-install-url": "https://nixos.org/releases/nix/nix-2.2.2/install",
-        "nix-channel": "https://nixos.org/channels/nixos-19.03",
+        "nix-release": "2.2.2",
+        "nix-channel": "19.03",
         "system-keymap": "dvorak-programmer",
         "system-locale": "en_US.UTF-8",
         "system-timezone": "UTC",
@@ -13,6 +13,7 @@
 
     "builders": [{
         "type": "hcloud",
+        "name": "{{ uuid }}",
         "ssh_username": "root",
 
         "token": "{{ user `hcloud-token` }}",
@@ -22,6 +23,14 @@
         "rescue": "linux64",
         
         "snapshot_name": "nixos-{{ timestamp }}",
+        "snapshot_labels": {
+            "packer.io/version": "{{ packer_version }}",
+            "packer.io/build.id": "{{ build_name }}",
+            "packer.io/build.time": "{{ timestamp }}",
+            "os-flavor": "nixos",
+            "nixos/nix.release": "{{ user `nix-release` }}",
+            "nixos/channel": "{{ user `nix-channel` }}"
+        }
     }],
 
     "provisioners": [
@@ -37,7 +46,7 @@
             "script": "install/nixos.sh",
             "environment_vars": [
                 "NIX_SIGNING_KEYS={{ user `nix-signing-keys` }}",
-                "NIX_INSTALL_URL={{ user `nix-install-url` }}",
+                "NIX_RELEASE={{ user `nix-release` }}",
                 "NIX_CHANNEL={{ user `nix-channel` }}",
                 "ROOT_SSH_KEY={{ user `root-ssh-key` }}",
                 "KEYMAP={{ user `system-keymap` }}",

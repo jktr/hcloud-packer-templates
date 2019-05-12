@@ -2,7 +2,7 @@
 
 # required env:
 # - NIX_SIGNING_KEYS
-# - NIX_INSTALL_URL
+# - NIX_RELEASE
 # - NIX_CHANNEL
 # - ROOT_SSH_KEY
 # - KEYMAP
@@ -10,6 +10,9 @@
 # - TIMEZONE
 
 set -euo pipefail
+
+readonly NIX_INSTALL_URL="https://nixos.org/releases/nix/nix-${NIX_RELEASE}/install"
+readonly NIX_CHANNEL_URL="https://nixos.org/channels/nixos-${NIX_CHANNEL}"
 
 # XXX: get nix install working in rescue system
 groupadd --force --system nixbld
@@ -29,7 +32,7 @@ set +u
 set -u
 
 # prepare nix
-nix-channel --add "${NIX_CHANNEL}" nixpkgs
+nix-channel --add "${NIX_CHANNEL_URL}" nixpkgs
 nix-channel --update
 nix-env -iE "_: with import <nixpkgs/nixos> { configuration = {}; }; with config.system.build; [ nixos-generate-config nixos-install nixos-enter manual.manpages ]"
 

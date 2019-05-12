@@ -2,8 +2,7 @@
 
 # required env:
 # - ARCH_SIGNING_KEYS
-# - ARCH_MIRROR
-# - ARCH_IMAGE
+# - ARCH_RELEASE
 # - ROOT_SSH_KEY
 # - KEYMAP
 # - LOCALE
@@ -11,13 +10,16 @@
 
 set -euo pipefail
 
+readonly ARCH_MIRROR='https://mirror.hetzner.de/archlinux'
+readonly ARCH_ISO="archlinux-bootstrap-${ARCH_RELEASE//-/.}-x86_64.tar.gz"
+
 # obtain arch tools
 gpg --batch --receive-keys ${ARCH_SIGNING_KEYS}
-curl --fail -o "${ARCH_IMAGE}"     "${ARCH_MIRROR}/iso/latest/${ARCH_IMAGE}"
-curl --fail -o "${ARCH_IMAGE}.sig" "${ARCH_MIRROR}/iso/latest/${ARCH_IMAGE}.sig"
-gpg --verify "./${ARCH_IMAGE}.sig" "./${ARCH_IMAGE}"
-tar xzf "./${ARCH_IMAGE}"
-rm "./${ARCH_IMAGE}" # save memory
+curl --fail -o "${ARCH_ISO}"     "${ARCH_MIRROR}/iso/${ARCH_RELEASE//-/.}/${ARCH_ISO}"
+curl --fail -o "${ARCH_ISO}.sig" "${ARCH_MIRROR}/iso/${ARCH_RELEASE//-/.}/${ARCH_ISO}.sig"
+gpg --verify "./${ARCH_ISO}.sig" "./${ARCH_ISO}"
+tar xzf "./${ARCH_ISO}"
+rm "./${ARCH_ISO}" # save ramfs memory
 
 # prepare mounts
 readonly iso='/root/root.x86_64'
