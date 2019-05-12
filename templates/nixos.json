@@ -1,6 +1,7 @@
 {
     "variables": {
-        "hcloud_token": "{{ env `HCLOUD_TOKEN` }}",
+        "hcloud-token": "{{ env `HCLOUD_TOKEN` }}",
+        "hcloud-servertype": "cx11",
         "nix-signing-keys": "B541D55301270E0BCF15CA5D8170B4726D7198DE",
         "nix-install-url": "https://nixos.org/releases/nix/nix-2.2.2/install",
         "nix-channel": "https://nixos.org/channels/nixos-19.03",
@@ -14,13 +15,13 @@
         "type": "hcloud",
         "ssh_username": "root",
 
-        "token": "{{ user `hcloud_token` }}",
-        "image": "debian-9",
+        "token": "{{ user `hcloud-token` }}",
+        "server_type": "{{ user `hcloud-servertype` }}",
         "location": "hel1",
-        "server_type": "cx11",
+        "image": "debian-9",
+        "rescue": "linux64",
         
         "snapshot_name": "nixos-{{ timestamp }}",
-        "rescue": "linux64"
     }],
 
     "provisioners": [

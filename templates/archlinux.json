@@ -1,6 +1,7 @@
 {
     "variables": {
-        "hcloud_token": "{{ env `HCLOUD_TOKEN` }}",
+        "hcloud-token": "{{ env `HCLOUD_TOKEN` }}",
+        "hcloud-servertype": "cx11",
         "arch-signing-keys": "4AA4767BBC9C4B1D18AE28B77F2D434B9741E8AC",
         "arch-mirror": "https://mirror.hetzner.de/archlinux",
         "arch-image": "archlinux-bootstrap-{{ isotime `2006.01` }}.01-x86_64.tar.gz",
@@ -14,13 +15,13 @@
         "type": "hcloud",
         "ssh_username": "root",
 
-        "token": "{{ user `hcloud_token` }}",
-        "image": "debian-9",
+        "token": "{{ user `hcloud-token` }}",
+        "server_type": "{{ user `hcloud-servertype` }}",
         "location": "hel1",
-        "server_type": "cx11",
+        "image": "debian-9",
+        "rescue": "linux64",
         
         "snapshot_name": "archlinux-{{ timestamp }}",
-        "rescue": "linux64"
     }],
 
     "provisioners": [
