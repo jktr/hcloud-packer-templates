@@ -43,7 +43,7 @@ cat > /mnt/etc/nixos/configuration.nix <<EOF
   ];
 
   environment.systemPackages = with pkgs; [
-    rxvt_unicode.terminfo alacritty.terminfo htop
+    rxvt_unicode.terminfo htop
   ];
 
   boot.loader.grub.device = "/dev/sda";
