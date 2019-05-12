@@ -4,7 +4,7 @@
 # - NIX_SIGNING_KEYS
 # - NIX_INSTALL_URL
 # - NIX_CHANNEL
-# - NIX_CONFIG_REPO_URL
+# - ROOT_SSH_KEY
 # - KEYMAP
 # - LOCALE
 # - TIMEZONE
@@ -35,7 +35,38 @@ nix-env -iE "_: with import <nixpkgs/nixos> { configuration = {}; }; with config
 
 # make configuration.nix
 mkdir -p /mnt/etc/nixos/
-git clone "${NIX_CONFIG_REPO_URL}" /mnt/etc/nixos/
+cat > /mnt/etc/nixos/configuration.nix <<EOF
+{ config, pkgs, ... }:
+{
+  imports = [
+    ./hardware-configuration.nix
+  ];
+
+  environment.systemPackages = with pkgs; [
+    rxvt_unicode.terminfo alacritty.terminfo htop
+  ];
+
+  boot.loader.grub.device = "/dev/sda";
+  system.autoUpgrade.enable = true;
+
+  i18n = {
+    consoleKeyMap = "${KEYMAP}";
+    defaultLocale = "${LOCALE}";
+  };
+  time.timeZone = "${TIMEZONE}";
+
+  services.openssh = {
+    enable = true;
+    challengeResponseAuthentication = false;
+    passwordAuthentication = false;
+  };
+
+  users = {
+    mutableUsers = false;
+    users.root.openssh.authorizedKeys.keys = [ "$ROOT_SSH_KEY" ];
+  };
+}
+EOF
 nixos-generate-config --root /mnt
 
 # actual install
