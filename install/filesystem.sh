@@ -9,13 +9,13 @@ set -euo pipefail
 dd if=/dev/zero of=/dev/sda bs=1MiB count=1 status=none
 xargs -L1 parted --script /dev/sda -- <<EOF
 mklabel msdos
-mkpart primary btrfs 1MiB -2GiB
-mkpart primary linux-swap -2GiB 100%
+mkpart primary linux-swap 1MiB 2GiB
+mkpart primary btrfs 2GiB 100%
 set 1 boot on
 EOF
 
 # filesystems
-mkfs.btrfs --force --label "${LABEL}" /dev/sda1
-mount -o compress=lzo,commit=90,autodefrag /dev/sda1 /mnt
-mkswap -L swap /dev/sda2
-swapon /dev/sda2
+mkswap -L swap /dev/sda1
+swapon /dev/sda1
+mkfs.btrfs --force --label "${LABEL}" /dev/sda2
+mount -o compress=lzo,commit=90,autodefrag /dev/sda2 /mnt
