@@ -5,6 +5,9 @@
 # - NIX_INSTALL_URL
 # - NIX_CHANNEL
 # - NIX_CONFIG_REPO_URL
+# - KEYMAP
+# - LOCALE
+# - TIMEZONE
 
 set -euo pipefail
 

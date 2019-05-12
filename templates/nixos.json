@@ -5,6 +5,9 @@
         "nix-install-url": "https://nixos.org/releases/nix/nix-2.2.2/install",
         "nix-channel": "https://nixos.org/channels/nixos-19.03",
         "nix-config-repo-url": "https://git.cs.uni-paderborn.de/jktr/nix-configuration.git"
+        "system-keymap": "dvorak-programmer",
+        "system-locale": "en_US.UTF-8",
+        "system-timezone": "UTC",
     },
 
     "builders": [{
@@ -36,6 +39,9 @@
                 "NIX_INSTALL_URL={{ user `nix-install-url` }}",
                 "NIX_CHANNEL={{ user `nix-channel` }}",
                 "NIX_CONFIG_REPO_URL={{ user `nix-config-repo-url` }}"
+                "KEYMAP={{ user `system-keymap` }}",
+                "LOCALE={{ user `system-locale` }}",
+                "TIMEZONE={{ user `system-timezone` }}"
             ]
         }
     ],
