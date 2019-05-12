@@ -48,7 +48,6 @@
     ],
 
     "post-processors": [{
-        "type": "manifest",
-        "output": "nixos-manifest.json"
+        "type": "manifest"
     }]
 }

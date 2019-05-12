@@ -48,7 +48,6 @@
     ],
 
     "post-processors": [{
-        "type": "manifest",
-        "output": "archlinux-manifest.json"
+        "type": "manifest"
     }]
 }
