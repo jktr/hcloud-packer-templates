@@ -45,6 +45,7 @@ cat > /mnt/etc/nixos/configuration.nix <<EOF
 { config, pkgs, ... }:
 {
   imports = [
+    <nixpkgs/nixos/modules/profiles/headless.nix>
     ./hardware-configuration.nix
   ];
 
