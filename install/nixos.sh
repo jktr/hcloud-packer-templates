@@ -8,6 +8,9 @@
 # - KEYMAP
 # - LOCALE
 # - TIMEZONE
+#
+# optional env:
+# - EXTRA_PACKAGES
 
 set -euo pipefail
 
@@ -46,7 +49,7 @@ cat > /mnt/etc/nixos/configuration.nix <<EOF
   ];
 
   environment.systemPackages = with pkgs; [
-    rxvt_unicode.terminfo python3
+    ${EXTRA_PACKAGES}
   ];
 
   boot.loader.grub.device = "/dev/sda";

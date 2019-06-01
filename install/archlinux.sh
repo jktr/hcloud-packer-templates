@@ -7,6 +7,9 @@
 # - KEYMAP
 # - LOCALE
 # - TIMEZONE
+#
+# optional env
+# - EXTRA_PACKAGES
 
 set -euo pipefail
 
@@ -34,7 +37,7 @@ set -euo pipefail
 echo 'Server = ${ARCH_MIRROR}/\$repo/os/\$arch' > /etc/pacman.d/mirrorlist
 pacman-key --init
 pacman-key --populate archlinux
-pacstrap -d /mnt base grub btrfs-progs openssh python rxvt-unicode-terminfo
+pacstrap -d /mnt base grub btrfs-progs openssh $EXTRA_PACKAGES
 
 # fstab
 genfstab -U /mnt > /mnt/etc/fstab
