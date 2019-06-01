@@ -37,7 +37,7 @@
             "type": "shell",
             "script": "install/filesystem.sh",
             "environment_vars": [
-                "LABEL=archlinux-{{ timestamp }}"
+                "LABEL={{ build_name }}"
             ]
         },    
         {
