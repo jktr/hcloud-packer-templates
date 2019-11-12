@@ -2,8 +2,8 @@
     "variables": {
         "hcloud-token": "{{ env `HCLOUD_TOKEN` }}",
         "hcloud-servertype": "cx11",
-        "nix-release": "2.2.2",
-        "nix-channel": "19.03",
+        "nix-release": "2.3",
+        "nix-channel": "19.09",
         "system-keymap": "dvorak-programmer",
         "system-locale": "en_US.UTF-8",
         "system-timezone": "UTC",
