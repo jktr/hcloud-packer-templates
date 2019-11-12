@@ -4,6 +4,7 @@
         "hcloud-servertype": "cx11",
         "nix-release": "2.3",
         "nix-channel": "19.09",
+        "nix-config-path": "files/nixos/config/hcloud/user/",
         "system-keymap": "dvorak-programmer",
         "system-locale": "en_US.UTF-8",
         "system-timezone": "UTC",
@@ -52,15 +53,29 @@
         },
         {
             "type": "shell",
+            "inline": "mkdir -p /mnt/etc/nixos/hcloud/"
+        },
+        {
+            "type": "file",
+            "source": "files/nixos/config/",
+            "destination": "/mnt/etc/nixos/"
+        },
+        {
+            "type": "file",
+            "source": "{{ user `nix-config-path` }}",
+            "destination": "/mnt/etc/nixos/hcloud/user/"
+        },
+        {
+            "type": "shell",
             "script": "files/nixos/install.sh",
             "environment_vars": [
                 "NIX_RELEASE={{ user `nix-release` }}",
                 "NIX_CHANNEL={{ user `nix-channel` }}",
-                "EXTRA_PACKAGES={{ user `extra-packages` }}",
                 "ROOT_SSH_KEY={{ user `root-ssh-key` }}",
                 "KEYMAP={{ user `system-keymap` }}",
                 "LOCALE={{ user `system-locale` }}",
-                "TIMEZONE={{ user `system-timezone` }}"
+                "TIMEZONE={{ user `system-timezone` }}",
+                "EXTRA_PACKAGES={{ user `extra-packages` }}"
             ]
         }
     ],

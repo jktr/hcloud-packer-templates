@@ -7,8 +7,6 @@
 # - KEYMAP
 # - LOCALE
 # - TIMEZONE
-#
-# optional env:
 # - EXTRA_PACKAGES
 
 set -euo pipefail
@@ -37,41 +35,10 @@ nix-channel --add "${NIX_CHANNEL_URL}" nixpkgs
 nix-channel --update
 nix-env -iE "_: with import <nixpkgs/nixos> { configuration = {}; }; with config.system.build; [ nixos-generate-config nixos-install nixos-enter manual.manpages ]"
 
-# make configuration.nix
-mkdir -p /mnt/etc/nixos/
-cat > /mnt/etc/nixos/configuration.nix <<EOF
-{ config, pkgs, ... }:
-{
-  imports = [
-    <nixpkgs/nixos/modules/profiles/headless.nix>
-    ./hardware-configuration.nix
-  ];
-
-  environment.systemPackages = with pkgs; [
-    ${EXTRA_PACKAGES}
-  ];
-
-  boot.loader.grub.device = "/dev/sda";
-  system.autoUpgrade.enable = true;
-
-  i18n = {
-    consoleKeyMap = "${KEYMAP}";
-    defaultLocale = "${LOCALE}";
-  };
-  time.timeZone = "${TIMEZONE}";
-
-  services.openssh = {
-    enable = true;
-    challengeResponseAuthentication = false;
-    passwordAuthentication = false;
-  };
-
-  users = {
-    mutableUsers = false;
-    users.root.openssh.authorizedKeys.keys = [ "$ROOT_SSH_KEY" ];
-  };
-}
-EOF
+# XXX: template the nix config previously injected by packer
+for i in NIX_CHANNEL KEYMAP LOCALE TIMEZONE ROOT_SSH_KEY EXTRA_PACKAGES; do
+  sed -i "s|{{ $i }}|${!i}|"  /mnt/etc/nixos/hcloud/default.nix
+done
 nixos-generate-config --root /mnt
 
 # actual install
