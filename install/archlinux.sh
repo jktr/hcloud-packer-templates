@@ -85,3 +85,7 @@ usermod -L root
 echo 'archlinux' > /etc/hostname
 
 EOF
+
+# clean up
+rm /mnt/root/.bash_history
+rm -r /mnt/var/cache/*
