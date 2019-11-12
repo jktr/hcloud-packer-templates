@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # required env:
-# - ARCH_SIGNING_KEYS
 # - ARCH_RELEASE
 # - ROOT_SSH_KEY
 # - KEYMAP
@@ -17,7 +16,6 @@ readonly ARCH_MIRROR='https://mirror.hetzner.de/archlinux'
 readonly ARCH_ISO="archlinux-bootstrap-${ARCH_RELEASE//-/.}-x86_64.tar.gz"
 
 # obtain arch tools
-gpg --batch --receive-keys ${ARCH_SIGNING_KEYS}
 curl --fail -o "${ARCH_ISO}"     "${ARCH_MIRROR}/iso/${ARCH_RELEASE//-/.}/${ARCH_ISO}"
 curl --fail -o "${ARCH_ISO}.sig" "${ARCH_MIRROR}/iso/${ARCH_RELEASE//-/.}/${ARCH_ISO}.sig"
 gpg --verify "./${ARCH_ISO}.sig" "./${ARCH_ISO}"

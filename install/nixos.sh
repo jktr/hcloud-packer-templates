@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # required env:
-# - NIX_SIGNING_KEYS
 # - NIX_RELEASE
 # - NIX_CHANNEL
 # - ROOT_SSH_KEY
@@ -23,7 +22,6 @@ useradd --system --gid nixbld --groups nixbld nixbld
 mkdir -m 0755 /nix && chown root /nix
 
 # obtain nix tools
-gpg --batch --receive-keys  ${NIX_SIGNING_KEYS}
 curl --fail -o install     "${NIX_INSTALL_URL}"
 curl --fail -o install.asc "${NIX_INSTALL_URL}.asc"
 gpg --verify ./install.asc ./install

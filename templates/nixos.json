@@ -2,7 +2,6 @@
     "variables": {
         "hcloud-token": "{{ env `HCLOUD_TOKEN` }}",
         "hcloud-servertype": "cx11",
-        "nix-signing-keys": "B541D55301270E0BCF15CA5D8170B4726D7198DE",
         "nix-release": "2.2.2",
         "nix-channel": "19.03",
         "system-keymap": "dvorak-programmer",
@@ -41,12 +40,20 @@
             "environment_vars": [
                 "LABEL={{ build_name }}"
             ]
-        },    
+        },
+        {
+            "type": "file",
+            "source": "files/nixos/key.gpg",
+            "destination": "/tmp/key-{{ build_name }}.gpg"
+        },
+        {
+            "type": "shell",
+            "inline": "gpg --batch --import /tmp/key-{{ build_name }}.gpg"
+        },
         {
             "type": "shell",
             "script": "install/nixos.sh",
             "environment_vars": [
-                "NIX_SIGNING_KEYS={{ user `nix-signing-keys` }}",
                 "NIX_RELEASE={{ user `nix-release` }}",
                 "NIX_CHANNEL={{ user `nix-channel` }}",
                 "EXTRA_PACKAGES={{ user `extra-packages` }}",
