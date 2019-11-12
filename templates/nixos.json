@@ -36,7 +36,7 @@
     "provisioners": [
         {
             "type": "shell",
-            "script": "install/filesystem.sh",
+            "script": "files/filesystem.sh",
             "environment_vars": [
                 "LABEL={{ build_name }}"
             ]
@@ -52,7 +52,7 @@
         },
         {
             "type": "shell",
-            "script": "install/nixos.sh",
+            "script": "files/nixos/install.sh",
             "environment_vars": [
                 "NIX_RELEASE={{ user `nix-release` }}",
                 "NIX_CHANNEL={{ user `nix-channel` }}",
