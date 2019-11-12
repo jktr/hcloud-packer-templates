@@ -35,7 +35,7 @@ set -euo pipefail
 echo 'Server = ${ARCH_MIRROR}/\$repo/os/\$arch' > /etc/pacman.d/mirrorlist
 pacman-key --init
 pacman-key --populate archlinux
-pacstrap -d /mnt base grub btrfs-progs openssh $EXTRA_PACKAGES
+pacstrap -d /mnt base linux grub nano btrfs-progs openssh $EXTRA_PACKAGES
 
 # fstab
 genfstab -U /mnt > /mnt/etc/fstab
