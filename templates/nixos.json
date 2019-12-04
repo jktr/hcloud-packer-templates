@@ -49,7 +49,7 @@
         },
         {
             "type": "shell",
-            "inline": "gpg --batch --import /tmp/key-{{ build_name }}.gpg"
+            "inline": [ "gpg --batch --import /tmp/key-{{ build_name }}.gpg" ]
         },
         {
             "type": "shell",
