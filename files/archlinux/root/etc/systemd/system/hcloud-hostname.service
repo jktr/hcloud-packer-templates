@@ -1,0 +1,11 @@
+[Unit]
+Description=Import hcloud hostname
+Requires=hcloud-dl-metadata.service
+After=hcloud-dl-metadata.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'hostnamectl set-hostname $(jq -r .hostname /etc/hcloud-metadata.json)'
+
+[Install]
+WantedBy=multi-user.target

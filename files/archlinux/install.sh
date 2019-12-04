@@ -2,7 +2,6 @@
 
 # required env:
 # - ARCH_RELEASE
-# - ROOT_SSH_KEY
 # - KEYMAP
 # - LOCALE
 # - TIMEZONE
@@ -28,31 +27,25 @@ mount --bind "$iso" "$iso" # XXX arch-chroot needs / to be a mountpoint
 mount --bind /mnt "$iso/mnt"
 
 # install base
-"$iso/bin/arch-chroot" "$iso" <<EOF
+"${iso}/bin/arch-chroot" "$iso" <<EOF
 set -euo pipefail
 
 # pacstrap
 echo 'Server = ${ARCH_MIRROR}/\$repo/os/\$arch' > /etc/pacman.d/mirrorlist
 pacman-key --init
 pacman-key --populate archlinux
-pacstrap -d /mnt base linux grub nano btrfs-progs openssh $EXTRA_PACKAGES
+pacstrap -d /mnt base linux grub nano btrfs-progs openssh curl jq python-yaml $EXTRA_PACKAGES
 
 # fstab
 genfstab -U /mnt > /mnt/etc/fstab
 echo 'proc /proc proc defaults,hidepid=2 0 0' >> /mnt/etc/fstab
-
 EOF
-
-# set ssh key
-install -o root -g root -D -m 640 \
-        <(echo "${ROOT_SSH_KEY}") \
-        /mnt/root/.ssh/authorized_keys
 
 # sync dns settings
 cp /etc/resolv.conf /mnt/etc/
 
 # configure base
-"$iso/bin/arch-chroot" /mnt <<EOF
+"${iso}/bin/arch-chroot" /mnt <<EOF
 set -euo pipefail
 
 # time
@@ -67,6 +60,7 @@ echo 'LANG=${LOCALE}' > /etc/locale.conf
 locale-gen
 
 # network
+mkdir /root/.ssh/
 systemctl enable systemd-networkd sshd
 cat > /etc/systemd/network/default.network <<EOF2
 [Match]
@@ -78,6 +72,12 @@ EOF2
 # grub
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg /dev/sda
+
+# hcloud
+# these services were uploaded by packer beforehand
+for i in /etc/systemd/system/hcloud*.service; do
+  systemctl enable "\$i"
+done
 
 # misc
 systemctl set-default multi-user.target

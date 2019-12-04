@@ -1,0 +1,14 @@
+[Unit]
+Description=Download cloud-init userdata
+Requires=network-online.target
+After=network-online.target
+ConditionPathExists=!/etc/hcloud-userdata
+
+[Service]
+Type=oneshot
+DynamicUser=yes
+ExecStart=/usr/bin/curl -s http://169.254.169.254/hetzner/v1/userdata
+StandardOutput=file:/etc/hcloud-userdata
+
+[Install]
+WantedBy=multi-user.target

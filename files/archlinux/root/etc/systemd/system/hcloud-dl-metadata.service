@@ -1,0 +1,14 @@
+[Unit]
+Description=Download cloud-init & hetzner network metadata
+Requires=network-online.target
+After=network-online.target
+ConditionPathExists=!/etc/hcloud-metadata.json
+
+[Service]
+Type=oneshot
+DynamicUser=yes
+ExecStart=/usr/local/bin/hcloud-metadata
+StandardOutput=file:/etc/hcloud-metadata.json
+
+[Install]
+WantedBy=multi-user.target

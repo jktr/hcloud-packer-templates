@@ -1,0 +1,14 @@
+[Unit]
+Description=Import hcloud network config
+Requires=hcloud-dl-metadata.service
+After=hcloud-dl-metadata.service
+ConditionPathExists=/etc/systemd/network/default.network
+
+[Service]
+Type=oneshot
+DynamicUser=yes
+ExecStart=/usr/local/bin/hcloud-network 
+StandardOutput=file:/etc/systemd/network/default.network
+
+[Install]
+WantedBy=multi-user.target
