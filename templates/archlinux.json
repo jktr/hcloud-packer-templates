@@ -3,10 +3,10 @@
         "hcloud-token": "{{ env `HCLOUD_TOKEN` }}",
         "hcloud-servertype": "cx11",
         "arch-release": "{{ isotime `2006-01` }}-01",
-        "system-keymap": "dvorak-programmer",
+        "system-keymap": "us",
         "system-locale": "en_US.UTF-8",
         "system-timezone": "UTC",
-        "extra-packages": "rxvt-unicode-terminfo python"
+        "extra-packages": ""
     },
 
     "builders": [{
