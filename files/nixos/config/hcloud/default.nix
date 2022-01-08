@@ -37,4 +37,13 @@
   users.users.root.openssh.authorizedKeys.keys = lib.mkDefault [
     "{{ ROOT_SSH_KEY }}"
   ];
+
+  networking.dhcpcd.enable = lib.mkDefault false;
+  systemd.network = {
+    enable = lib.mkDefault true;
+    networks.default = lib.mkDefault {
+      matchConfig.Match = "en*";
+      networkConfig.DHCP = "yes";
+    };
+  };
 }
