@@ -4,16 +4,22 @@ readonly f=/etc/hcloud-metadata.json
 
 cat <<EOF
 [Match]
-Name=en*
+MACAddress=$(jq -r '.network.mac_address' "$f")
 
 [Network]
-DHCP=yes
-Address=$(jq -r '.network.ipv4_address' "$f")/32
+Address=$(jq -r '.network.ipv6_address' "$f")/64
 Gateway=$(jq -r '.network.ipv4_gateway' "$f")
-Address=$(jq -r '.network.ipv6_address' "$f")
 Gateway=$(jq -r '.network.ipv6_gateway' "$f")
+
 EOF
 
 for nameserver in $(jq -r '.network.nameservers|join(" ")' "$f"); do
   echo "DNS=${nameserver}"
 done
+
+cat <<EOF
+
+[Address]
+Address=$(jq -r '.network.ipv4_address' "$f")/32
+Peer=172.31.1.1/32
+EOF
