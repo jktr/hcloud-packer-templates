@@ -11,6 +11,10 @@ Address=$(jq -r '.network.ipv6_address' "$f")/64
 Gateway=$(jq -r '.network.ipv4_gateway' "$f")
 Gateway=$(jq -r '.network.ipv6_gateway' "$f")
 
+NTP=ntp1.hetzner.de
+NTP=ntp2.hetzner.com
+NTP=ntp3.hetzner.net
+
 EOF
 
 for nameserver in $(jq -r '.network.nameservers|join(" ")' "$f"); do
