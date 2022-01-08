@@ -20,6 +20,7 @@ data = {
         'nameservers': [],
         'mac_address': metadata_net['mac_address'],
         'ipv4_address': metadata['public-ipv4'],
+        'ipv4_subnet': metadata['public-ipv4'] + '/32',
         'ipv4_gateway': '172.31.1.1',
         'private': networks,
     },
@@ -33,8 +34,9 @@ for subnet in metadata_net['subnets']:
         data['network']['nameservers'] += subnet['dns_nameservers']
     if 'ipv6' in subnet:
         if 'address' in subnet:
-            data['network']['ipv6_address'] = subnet['address']
-        if  'gateway' in subnet:
+            data['network']['ipv6_subnet'] = subnet['address']
+            data['network']['ipv6_address'] = subnet['address'][:-3]
+        if 'gateway' in subnet:
             data['network']['ipv6_gateway'] = subnet['gateway']
 
 json.dump(data, sys.stdout)
