@@ -11,8 +11,8 @@
 
 set -euo pipefail
 
-readonly NIX_INSTALL_URL="https://nixos.org/releases/nix/nix-${NIX_RELEASE}/install"
-readonly NIX_CHANNEL_URL="https://nixos.org/channels/nixos-${NIX_CHANNEL}"
+readonly NIX_INSTALL_URL="https://releases.nixos.org/nix/nix-${NIX_RELEASE}/install"
+readonly NIX_CHANNEL_URL="https://channels.nixos.org/nixos-${NIX_CHANNEL}"
 
 # XXX: get nix install working in rescue system
 groupadd --force --system nixbld
