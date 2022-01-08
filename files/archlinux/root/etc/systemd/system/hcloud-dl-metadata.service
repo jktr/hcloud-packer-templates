@@ -8,7 +8,7 @@ ConditionPathExists=!/etc/hcloud-metadata.json
 Type=oneshot
 DynamicUser=yes
 ExecStart=/usr/local/bin/hcloud-metadata
-StandardOutput=file:/etc/hcloud-metadata.json
+StandardOutput=truncate:/etc/hcloud-metadata.json
 
 [Install]
 WantedBy=multi-user.target

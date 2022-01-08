@@ -24,7 +24,7 @@ in {
     serviceConfig.Type = "oneshot";
     serviceConfig.DynamicUser = "yes";
     serviceConfig.ExecStart = "${hcloud-metadata}/bin/hcloud-metadata";
-    serviceConfig.StandardOutput = "file:/etc/hcloud-metadata.json";
+    serviceConfig.StandardOutput = "truncate:/etc/hcloud-metadata.json";
     wantedBy = [ "multi-user.target" ];
   };
   systemd.services.hcloud-dl-userdata = {
@@ -37,7 +37,7 @@ in {
     serviceConfig.ExecStart = ''
       ${pkgs.curl}/bin/curl -s http://169.254.169.254/hetzner/v1/userdata
     '';
-    serviceConfig.StandardOutput = "file:/etc/hcloud-userdata";
+    serviceConfig.StandardOutput = "truncate:/etc/hcloud-userdata";
     wantedBy = [ "multi-user.target" ];
   };
 }

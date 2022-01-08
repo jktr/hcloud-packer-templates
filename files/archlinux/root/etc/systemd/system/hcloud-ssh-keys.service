@@ -8,7 +8,7 @@ ConditionPathExists=!/root/.ssh/authorized_keys
 Type=oneshot
 DynamicUser=yes
 ExecStart=/usr/bin/jq -r '.ssh_keys|join("\n")' /etc/hcloud-metadata.json
-StandardOutput=file:/root/.ssh/authorized_keys
+StandardOutput=truncate:/root/.ssh/authorized_keys
 
 [Install]
 WantedBy=multi-user.target

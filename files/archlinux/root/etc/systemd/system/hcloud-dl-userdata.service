@@ -8,7 +8,7 @@ ConditionPathExists=!/etc/hcloud-userdata
 Type=oneshot
 DynamicUser=yes
 ExecStart=/usr/bin/curl -s http://169.254.169.254/hetzner/v1/userdata
-StandardOutput=file:/etc/hcloud-userdata
+StandardOutput=truncate:/etc/hcloud-userdata
 
 [Install]
 WantedBy=multi-user.target
