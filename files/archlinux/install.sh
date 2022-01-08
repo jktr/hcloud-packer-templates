@@ -41,9 +41,6 @@ genfstab -U /mnt > /mnt/etc/fstab
 echo 'proc /proc proc defaults,hidepid=2 0 0' >> /mnt/etc/fstab
 EOF
 
-# sync dns settings
-cp /etc/resolv.conf /mnt/etc/
-
 # configure base
 "${iso}/bin/arch-chroot" /mnt <<EOF
 set -euo pipefail
@@ -61,7 +58,7 @@ locale-gen
 
 # network
 mkdir /root/.ssh/
-systemctl enable systemd-networkd sshd
+systemctl enable systemd-networkd systemd-resolved sshd
 cat > /etc/systemd/network/default.network <<EOF2
 [Match]
 Name=en*

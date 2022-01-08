@@ -38,6 +38,8 @@
     "{{ ROOT_SSH_KEY }}"
   ];
 
+  services.resolved.enable = lib.mkDefault true;
+
   networking.dhcpcd.enable = lib.mkDefault false;
   systemd.network = {
     enable = lib.mkDefault true;
