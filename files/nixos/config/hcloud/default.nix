@@ -14,10 +14,8 @@
     {{ EXTRA_PACKAGES }}
   ];
 
-  i18n = {
-    consoleKeyMap = lib.mkDefault "{{ KEYMAP }}";
-    defaultLocale = lib.mkDefault "{{ LOCALE }}";
-  };
+  i18n.defaultLocale = lib.mkDefault "{{ LOCALE }}";
+  console.keyMap = lib.mkDefault "{{ KEYMAP }}";
   time.timeZone = lib.mkDefault "{{ TIMEZONE }}";
 
   boot = {
