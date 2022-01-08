@@ -7,7 +7,7 @@ ConditionPathExists=!/etc/hcloud-userdata
 [Service]
 Type=oneshot
 DynamicUser=yes
-ExecStart=/usr/bin/curl -s http://169.254.169.254/hetzner/v1/userdata
+ExecStart=/usr/bin/curl --fail -s http://169.254.169.254/hetzner/v1/userdata
 StandardOutput=truncate:/etc/hcloud-userdata
 
 [Install]

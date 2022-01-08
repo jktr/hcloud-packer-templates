@@ -35,7 +35,7 @@ in {
     serviceConfig.Type = "oneshot";
     serviceConfig.DynamicUser = "yes";
     serviceConfig.ExecStart = ''
-      ${pkgs.curl}/bin/curl -s http://169.254.169.254/hetzner/v1/userdata
+      ${pkgs.curl}/bin/curl --fail -s http://169.254.169.254/hetzner/v1/userdata
     '';
     serviceConfig.StandardOutput = "truncate:/etc/hcloud-userdata";
     wantedBy = [ "multi-user.target" ];
