@@ -10,7 +10,6 @@
 
   boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
   environment.systemPackages = with pkgs; [
-    (python3.withPackages (f: [f.pyyaml]))
     {{ EXTRA_PACKAGES }}
   ];
 
