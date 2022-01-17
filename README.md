@@ -28,16 +28,16 @@ Please ensure that you have done the following:
 
 To build VM images:
 
-  - `$ packer build templates/archlinux.json`
-  - `$ packer build templates/nixos.json`
+  - `$ packer build templates/archlinux.pkr.hcl`
+  - `$ packer build templates/nixos.pkr.hcl`
 
 To view info about past builds:
 
-  - `$ less nixos-manifest.json`
+  - `$ less packer-manifest.json`
 
 To debug a build:
 
-  - `$ packer build -debug -on-error=ask packer/nixos.json`
+  - `$ packer build -debug -on-error=ask packer/nixos.pkr.hcl`
   - `$ ssh -F/dev/null -i ssh_key_hcloud.pem root@XXX.XXX.XXX.XXX -o StrictHostKeyChecking=no`
 
 ### Internals
@@ -45,7 +45,7 @@ To debug a build:
 The resulting images are intended to support a Terraform-based (or
 custom) workflow that feels close to the one of native Hetzner VMs.
 
-Hetzner's server infrastructure (mirrors, repos, DNS, DHCP) and
+Hetzner's server infrastructure (mirrors, repos, DNS, NTP, DHCP) and
 configuration endpoints are used where possible.  This necessarily
 involves some analysis of their (partially undocumented) setups and
 translations of these to our images, so this may become outdated, may
@@ -88,11 +88,12 @@ happen to treat as an execute-on-boot script, is instead handled by
 #### Archlinux
 
 Archlinux images use the file `/etc/hcloud-metadata.json` to drive a
-few systemd services, which in turn implement the dynamic features:
+few systemd services, which in turn implement the dynamic features
+mentioned above:
 
-  - hcloud-hostname.service
-  - hcloud-network.service
-  - hcloud-ssh-keys.service
+  - hcloud-hostname.service (sets hostname)
+  - hcloud-network.service (configures primary and attached networks)
+  - hcloud-ssh-keys.service (sets ssh root keys)
   
 Any further configuration is up to your provisioning tool.
 
@@ -122,6 +123,9 @@ This `nix-config-path` mechanism allows both small customizations to
 the barebones image (producing images primarily intended for
 additional provisioning), while also enabling fully baked system
 images (for rapid deployment / autoscaling).
+
+It is planned to transition some or all of the above NixOS workflow
+to use flakes instead, but this isn't implemented yet.
 
 ### Known Issues
 
